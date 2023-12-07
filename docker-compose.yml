@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+    nginx:
+        image: nginx:latest
+        ports:
+            - "8081:80"
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+            - ./laratest:/var/www/laratest
+
+    php-fpm:
+        build:
+            context: .
+        volumes:
+            - ./laratest:/var/www/laratest
+
+    postgres:
+        image: postgres:13
+        environment:
+            POSTGRES_DB: test
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+        ports:
+            - "5433:5432"
